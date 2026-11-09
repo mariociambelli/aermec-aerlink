@@ -1,0 +1,74 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aermec AerLink",
+        "description": "Connect to the AerLink gateway on your local network (Modbus TCP). List the zones in the same order as in the AerPlants app, separated by commas or one per line.",
+        "data": {
+          "host": "Host",
+          "port": "Port",
+          "zones": "Zone names"
+        },
+        "data_description": {
+          "host": "IP address of the AerLink. Give it a fixed IP in your router.",
+          "zones": "Example: Living room, Kitchen, Bedroom"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the AerLink on Modbus TCP. Check the IP address and that port 502 is reachable.",
+      "invalid_zones": "Enter between 1 and 64 zone names."
+    },
+    "abort": {
+      "already_configured": "This AerLink is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "min_temp": "Minimum setpoint (°C)",
+          "max_temp": "Maximum setpoint (°C)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "climate": {
+      "zone": {
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "low": "Speed 1",
+              "medium": "Speed 2",
+              "high": "Speed 3",
+              "aux": "Aux"
+            }
+          }
+        }
+      }
+    },
+    "sensor": {
+      "water_temperature": { "name": "Coil water temperature" },
+      "fan_output": { "name": "Fan output" },
+      "fan_speed": {
+        "name": "Fan speed",
+        "state": {
+          "off": "Off",
+          "auto": "Auto",
+          "low": "Speed 1",
+          "medium": "Speed 2",
+          "high": "Speed 3",
+          "aux": "Aux",
+          "unknown": "Unknown"
+        }
+      }
+    },
+    "binary_sensor": {
+      "zone_demand": { "name": "Demand" },
+      "plant_demand": { "name": "Plant demand" }
+    }
+  }
+}

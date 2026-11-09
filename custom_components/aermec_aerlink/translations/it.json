@@ -1,0 +1,74 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Aermec AerLink",
+        "description": "Collegati all'AerLink sulla rete di casa (Modbus TCP). Elenca le zone nello stesso ordine dell'app AerPlants, separate da virgole o una per riga.",
+        "data": {
+          "host": "Indirizzo",
+          "port": "Porta",
+          "zones": "Nomi delle zone"
+        },
+        "data_description": {
+          "host": "Indirizzo IP dell'AerLink. Conviene assegnargli un IP fisso nel router.",
+          "zones": "Esempio: Salone, Cucina, Camera"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "AerLink non raggiungibile via Modbus TCP. Controlla l'indirizzo IP e che la porta 502 sia raggiungibile.",
+      "invalid_zones": "Inserisci da 1 a 64 nomi di zona."
+    },
+    "abort": {
+      "already_configured": "Questo AerLink è già configurato."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervallo di lettura (secondi)",
+          "min_temp": "Temperatura minima impostabile (°C)",
+          "max_temp": "Temperatura massima impostabile (°C)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "climate": {
+      "zone": {
+        "state_attributes": {
+          "fan_mode": {
+            "state": {
+              "auto": "Auto",
+              "low": "Velocità 1",
+              "medium": "Velocità 2",
+              "high": "Velocità 3",
+              "aux": "Aux"
+            }
+          }
+        }
+      }
+    },
+    "sensor": {
+      "water_temperature": { "name": "Temperatura acqua fancoil" },
+      "fan_output": { "name": "Potenza ventilatore" },
+      "fan_speed": {
+        "name": "Velocità ventola",
+        "state": {
+          "off": "Spento",
+          "auto": "Auto",
+          "low": "Velocità 1",
+          "medium": "Velocità 2",
+          "high": "Velocità 3",
+          "aux": "Aux",
+          "unknown": "Sconosciuta"
+        }
+      }
+    },
+    "binary_sensor": {
+      "zone_demand": { "name": "Richiesta" },
+      "plant_demand": { "name": "Impianto in funzione" }
+    }
+  }
+}
