@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="52 82 408 408">
+  <!-- fancoil: corpo con griglia e flusso d'aria -->
+  <rect x="56" y="120" width="400" height="232" rx="36" fill="#1f6f8b"/>
+  <rect x="96" y="160" width="320" height="64" rx="14" fill="#e9f3f6"/>
+  <g stroke="#1f6f8b" stroke-width="10" stroke-linecap="round">
+    <line x1="132" y1="178" x2="132" y2="206"/><line x1="172" y1="178" x2="172" y2="206"/>
+    <line x1="212" y1="178" x2="212" y2="206"/><line x1="252" y1="178" x2="252" y2="206"/>
+    <line x1="292" y1="178" x2="292" y2="206"/><line x1="332" y1="178" x2="332" y2="206"/>
+    <line x1="372" y1="178" x2="372" y2="206"/>
+  </g>
+  <circle cx="360" cy="292" r="26" fill="#f2a541"/>
+  <rect x="96" y="276" width="190" height="32" rx="16" fill="#e9f3f6" opacity="0.55"/>
+  <g fill="none" stroke="#f2a541" stroke-width="18" stroke-linecap="round">
+    <path d="M150 392 q 26 24 0 48"/>
+    <path d="M256 392 q 26 24 0 48"/>
+    <path d="M362 392 q 26 24 0 48"/>
+  </g>
+</svg>
