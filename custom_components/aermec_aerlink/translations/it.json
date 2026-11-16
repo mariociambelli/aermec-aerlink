@@ -52,7 +52,7 @@
     },
     "sensor": {
       "water_temperature": { "name": "Temperatura acqua fancoil" },
-      "fan_output": { "name": "Potenza ventilatore" },
+      "fan_output": { "name": "Uscita regolazione" },
       "fan_speed": {
         "name": "Velocità ventola",
         "state": {

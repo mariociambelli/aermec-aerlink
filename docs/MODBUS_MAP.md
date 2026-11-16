@@ -8,10 +8,10 @@ FC3 and FC4 return the same values.
 |---|---|---|---|---|
 | 222 + i | holding | R | Room temperature | verified |
 | 286 + i | holding | R | Effective setpoint = base setpoint + thermostat knob offset (write → exception 02) | verified |
-| 350 + i | holding | R | Fan / valve output, % (0 = stopped) | verified |
+| 350 + i | holding | R | Control output, %: pulses 0→10→13→0 every 1–2 min while heating, can be 0 with the fan running (not the fan speed) | verified |
 | 414 + i | holding | R | Fan speed applied: 1 off, 2 auto(?), 3 speed 1, 4 speed 2, 5 speed 3, 6 aux (write → exception 02) | verified |
 | 478 + i | holding | R | Water temperature in the fan coil | verified |
-| 606 + i | holding | W | **Fan speed command**: write a code from 414; the gateway applies it within ~15 s and resets the register to 0 | verified (codes 2–6) |
+| 606 + i | holding | W | **Fan speed command**: write a code from 414; the gateway applies it within ~15 s and resets the register to 0. Sometimes it does not (e.g. after a power cut): while ≠ 0 the thermostat shows a lock, cannot be switched off by hand and ignores its local V1/V2/V3 settings. Writing 0 releases it without changing the speed (the integration does this automatically) | verified (codes 2–6) |
 | 734 + i | holding | R/W | **Base heating setpoint**; the effective setpoint (286) follows in ~30 s | verified |
 | 798 + i | holding | R | Probably the cooling setpoint | not verified |
 | 1300 | holding | R | Number of zones calling the heat pump | verified |

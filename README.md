@@ -14,7 +14,7 @@ For every zone (wall thermostat, e.g. VMF-E19):
 |---|---|
 | Climate | Room temperature, setpoint, zone on/off, **fan speed** (Auto, 1, 2, 3, Aux) |
 | Sensor: Coil water temperature | Water temperature in the fan coil |
-| Sensor: Fan output | Fan/valve output, % |
+| Sensor: Control output | Thermostat control output, % (pulses while heating; not the fan motor speed) |
 | Sensor: Fan speed | Fan speed currently applied (also when changed on the thermostat) |
 | Binary sensor: Demand | The zone is calling for heat |
 

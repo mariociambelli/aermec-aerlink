@@ -52,7 +52,7 @@
     },
     "sensor": {
       "water_temperature": { "name": "Coil water temperature" },
-      "fan_output": { "name": "Fan output" },
+      "fan_output": { "name": "Control output" },
       "fan_speed": {
         "name": "Fan speed",
         "state": {

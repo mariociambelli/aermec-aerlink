@@ -21,13 +21,14 @@ MAX_ZONES = 64
 # Holding registers (read)
 REG_ROOM_TEMP = 222      # room temperature measured by the thermostat
 REG_EFFECTIVE_SP = 286   # effective setpoint = base setpoint + thermostat knob offset (read only)
-REG_FAN_OUTPUT = 350     # fan / valve output, %
+REG_FAN_OUTPUT = 350     # control output, % (pulses while heating: NOT the fan motor speed)
 REG_FAN_STATE = 414      # fan speed currently applied (read only), see FAN_CODES
 REG_WATER_TEMP = 478     # water temperature in the fan coil
 REG_PLANT_DEMAND = 1300  # number of zones calling the heat pump
 
 # Holding registers (write)
-REG_FAN_COMMAND = 606    # write a FAN_CODES value; the AerLink applies it and resets to 0
+REG_FAN_COMMAND = 606    # write a FAN_CODES value; the AerLink applies it and should reset to 0
+                         # (if it does not, the thermostat stays locked: the coordinator clears it)
 REG_BASE_SP = 734        # base (heating) setpoint, read/write
 
 # Coils
@@ -48,3 +49,6 @@ FAN_MODES_TO_CODE = {mode: code for code, mode in FAN_CODES.items()}
 # After a setpoint write the effective setpoint updates with ~30 s delay:
 # during this window the stored knob offset is reused.
 SETTLE_SECONDS = 90
+
+# A fan command still pending after it was applied (or after this long) is cleared.
+FAN_RELEASE_SECONDS = 120
