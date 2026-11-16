@@ -40,6 +40,7 @@
         "state_attributes": {
           "fan_mode": {
             "state": {
+              "thermostat": "Termostato",
               "auto": "Auto",
               "low": "Velocità 1",
               "medium": "Velocità 2",

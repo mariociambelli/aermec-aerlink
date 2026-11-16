@@ -29,7 +29,9 @@ from .const import (
     CONF_MIN_TEMP,
     DEFAULT_MAX_TEMP,
     DEFAULT_MIN_TEMP,
+    FAN_CODE_RELEASE,
     FAN_CODES,
+    FAN_MODE_THERMOSTAT,
     FAN_MODES_TO_CODE,
     REG_BASE_SP,
     REG_EFFECTIVE_SP,
@@ -61,7 +63,7 @@ class AerLinkClimate(AerLinkZoneEntity, ClimateEntity):
     _attr_target_temperature_step = 0.5
     _attr_precision = 0.1
     _attr_hvac_modes = [HVACMode.AUTO, HVACMode.OFF]
-    _attr_fan_modes = list(FAN_CODES.values())
+    _attr_fan_modes = [FAN_MODE_THERMOSTAT, *FAN_CODES.values()]
     _attr_supported_features = (
         ClimateEntityFeature.TARGET_TEMPERATURE
         | ClimateEntityFeature.FAN_MODE
@@ -75,7 +77,6 @@ class AerLinkClimate(AerLinkZoneEntity, ClimateEntity):
         self._offset: int | None = None  # knob offset, tenths of °C
         self._wrote_at = 0.0
         self._wrote_base: int | None = None
-        self._fan_cmd: tuple[float, str] | None = None
 
     @property
     def _client(self):
@@ -114,11 +115,16 @@ class AerLinkClimate(AerLinkZoneEntity, ClimateEntity):
 
     @property
     def fan_mode(self) -> str | None:
-        # A fan command takes ~15-20 s to show up: show the requested mode meanwhile.
-        if self._fan_cmd and time.monotonic() - self._fan_cmd[0] < SETTLE_SECONDS:
-            if FAN_CODES.get(self._v("fan_state")) != self._fan_cmd[1]:
-                return self._fan_cmd[1]
-        return FAN_CODES.get(self._v("fan_state"))
+        """Forced speed, or "thermostat" when the keypad is in charge.
+
+        The speed actually running is in the fan_speed sensor (and fan_code).
+        """
+        cmd = self._v("fan_cmd")
+        if cmd is None:
+            return None
+        if cmd == FAN_CODE_RELEASE:
+            return FAN_MODE_THERMOSTAT
+        return FAN_CODES.get(cmd)
 
     @property
     def extra_state_attributes(self) -> dict[str, Any] | None:
@@ -129,6 +135,7 @@ class AerLinkClimate(AerLinkZoneEntity, ClimateEntity):
             "base_setpoint": base / 10,
             "knob_offset": round((eff - base) / 10, 1),
             "fan_code": self._v("fan_state"),
+            "fan_forced": bool(self._v("fan_cmd")),
         }
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
@@ -162,7 +169,8 @@ class AerLinkClimate(AerLinkZoneEntity, ClimateEntity):
             await self._client.write_register(REG_FAN_COMMAND + self._i, code)
         except AerLinkError as err:
             raise HomeAssistantError(f"AerLink: {err}") from err
-        self._fan_cmd = (time.monotonic(), fan_mode)
+        if self.coordinator.data:
+            self.coordinator.data["fan_cmd"][self._i] = code
         self.async_write_ha_state()
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:

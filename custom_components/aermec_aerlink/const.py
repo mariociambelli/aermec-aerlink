@@ -27,8 +27,8 @@ REG_WATER_TEMP = 478     # water temperature in the fan coil
 REG_PLANT_DEMAND = 1300  # number of zones calling the heat pump
 
 # Holding registers (write)
-REG_FAN_COMMAND = 606    # write a FAN_CODES value; the AerLink applies it and should reset to 0
-                         # (if it does not, the thermostat stays locked: the coordinator clears it)
+REG_FAN_COMMAND = 606    # fan speed override: write a FAN_CODES value to force that speed,
+                         # 0 to give control back to the thermostat (see FAN_MODE_THERMOSTAT)
 REG_BASE_SP = 734        # base (heating) setpoint, read/write
 
 # Coils
@@ -46,9 +46,14 @@ FAN_CODES: dict[int, str] = {
 }
 FAN_MODES_TO_CODE = {mode: code for code, mode in FAN_CODES.items()}
 
+# While REG_FAN_COMMAND is not 0 the gateway forces that speed: the thermostat
+# shows a lock, cannot be switched off by hand and ignores its own V1/V2/V3
+# settings. Writing 0 ends the override and the thermostat goes back to the
+# speed chosen on its keypad.
+FAN_MODE_THERMOSTAT = "thermostat"
+FAN_CODE_RELEASE = 0
+FAN_MODES_TO_CODE[FAN_MODE_THERMOSTAT] = FAN_CODE_RELEASE
+
 # After a setpoint write the effective setpoint updates with ~30 s delay:
 # during this window the stored knob offset is reused.
 SETTLE_SECONDS = 90
-
-# A fan command still pending after it was applied (or after this long) is cleared.
-FAN_RELEASE_SECONDS = 120

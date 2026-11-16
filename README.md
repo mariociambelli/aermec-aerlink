@@ -12,10 +12,15 @@ For every zone (wall thermostat, e.g. VMF-E19):
 
 | Entity | What it does |
 |---|---|
-| Climate | Room temperature, setpoint, zone on/off, **fan speed** (Auto, 1, 2, 3, Aux) |
+| Climate | Room temperature, setpoint, zone on/off, **fan speed override** (Thermostat, Auto, 1, 2, 3, Aux) |
 | Sensor: Coil water temperature | Water temperature in the fan coil |
 | Sensor: Control output | Thermostat control output, % (pulses while heating; not the fan motor speed) |
 | Sensor: Fan speed | Fan speed currently applied (also when changed on the thermostat) |
+
+**Fan speed is an override.** Choosing Auto/1/2/3/Aux forces that speed from the gateway:
+the thermostat shows a lock, cannot be switched off by hand and ignores its own V1/V2/V3
+power settings. Choose **Thermostat** to end the override: the fan goes back to the speed
+set on the thermostat keypad.
 | Binary sensor: Demand | The zone is calling for heat |
 
 Plus one **Plant demand** binary sensor (at least one zone is calling the heat pump).
